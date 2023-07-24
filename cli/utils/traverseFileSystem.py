@@ -5,17 +5,7 @@ from typing_extensions import TypedDict
 from types import TraverseFileSystemParams 
 
 
-class TraverseFileSystemParams(TypedDict):
-    inputPath: str
-    projectName: str
-    processFile: Optional[Callable[[ProcessFileParams], None]]
-    processFolder: Optional[Callable[[ProcessFolderParams], None]]
-    ignore: list[str]
-    filePrompt: str
-    folderPrompt: str
-    contentType: str
-    targetAudience: str
-    linkHosted: bool
+
 
 def traverse_file_system(params: TraverseFileSystemParams) -> None:
     try:
