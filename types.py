@@ -1,62 +1,99 @@
-
+from dataclasses import dataclass
 from typing import List
 
+@dataclass
 class OpenAIChat:
+    # Your implementation of the OpenAIChat class here
     pass
 
+@dataclass
 class AutodocUserConfig:
-    def __init__(self, llms: List[str]):
-        self.llms = llms
+    llms: List[str]
 
+@dataclass
 class AutodocRepoConfig:
-    def __init__(self, name: str, repositoryUrl: str, root: str, output: str, llms: List[str], 
-                 ignore: List[str], filePrompt: str, folderPrompt: str, chatPrompt: str, 
-                 contentType: str, targetAudience: str, linkHosted: bool):
-        self.name = name
-        self.repositoryUrl = repositoryUrl
-        self.root = root
-        self.output = output
-        self.llms = llms
-        self.ignore = ignore
-        self.filePrompt = filePrompt
-        self.folderPrompt = folderPrompt
-        self.chatPrompt = chatPrompt
-        self.contentType = contentType
-        self.targetAudience = targetAudience
-        self.linkHosted = linkHosted
+    name: str
+    repositoryUrl: str
+    root: str
+    output: str
+    llms: List[str]
+    ignore: List[str]
+    filePrompt: str
+    folderPrompt: str
+    chatPrompt: str
+    contentType: str
+    targetAudience: str
+    linkHosted: bool
 
+@dataclass
 class FileSummary:
-    def __init__(self, fileName: str, filePath: str, url: str, summary: str, questions: str, checksum: str):
-        self.fileName = fileName
-        self.filePath = filePath
-        self.url = url
-        self.summary = summary
-        self.questions = questions
-        self.checksum = checksum
+    fileName: str
+    filePath: str
+    url: str
+    summary: str
+    questions: str
+    checksum: str
 
+@dataclass
+class ProcessFileParams:
+    fileName: str
+    filePath: str
+    projectName: str
+    contentType: str
+    filePrompt: str
+    targetAudience: str
+    linkHosted: bool
+
+@dataclass
 class FolderSummary:
-    def __init__(self, folderName: str, folderPath: str, url: str, files: List[FileSummary], 
-                 folders: List['FolderSummary'], summary: str, questions: str, checksum: str):
-        self.folderName = folderName
-        self.folderPath = folderPath
-        self.url = url
-        self.files = files
-        self.folders = folders
-        self.summary = summary
-        self.questions = questions
-        self.checksum = checksum
+    folderName: str
+    folderPath: str
+    url: str
+    files: List[FileSummary]
+    folders: List['FolderSummary']
+    summary: str
+    questions: str
+    checksum: str
 
+@dataclass
+class ProcessFolderParams:
+    inputPath: str
+    folderName: str
+    folderPath: str
+    projectName: str
+    contentType: str
+    folderPrompt: str
+    targetAudience: str
+    linkHosted: bool
+    shouldIgnore: callable
+
+@dataclass
+class TraverseFileSystemParams:
+    inputPath: str
+    projectName: str
+    processFile: callable = None
+    processFolder: callable = None
+    ignore: List[str]
+    filePrompt: str
+    folderPrompt: str
+    contentType: str
+    targetAudience: str
+    linkHosted: bool
+
+class LLMModels:
+    GPT3 = 'gpt-3.5-turbo'
+    GPT4 = 'gpt-4'
+    GPT432k = 'gpt-4-32k'
+
+@dataclass
 class LLMModelDetails:
-    def __init__(self, name: str, inputCostPer1KTokens: float, outputCostPer1KTokens: float, 
-                 maxLength: int, llm: OpenAIChat, inputTokens: int, outputTokens: int, 
-                 succeeded: int, failed: int, total: int):
-        self.name = name
-        self.inputCostPer1KTokens = inputCostPer1KTokens
-        self.outputCostPer1KTokens = outputCostPer1KTokens
-        self.maxLength = maxLength
-        self.llm = llm
-        self.inputTokens = inputTokens
-        self.outputTokens = outputTokens
-        self.succeeded = succeeded
-        self.failed = failed
-        self.total = total
+    name: str
+    inputCostPer1KTokens: float
+    outputCostPer1KTokens: float
+    maxLength: int
+    llm: OpenAIChat
+    inputTokens: int
+    outputTokens: int
+    succeeded: int
+    failed: int
+    total: int
